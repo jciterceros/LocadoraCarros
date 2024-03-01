@@ -4,6 +4,7 @@ import LocadoraCarros.classe.ConexaoBanco;
 import LocadoraCarros.model.Carro;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,13 +36,14 @@ public class CarroRepository {
 
             return listaCarro;
 
-        } catch (Exception ex) {
-            System.out.println("Algo deu errado");
+        } catch (SQLException ex) {
+            System.out.println("Algo deu errado... " + ex.getMessage());
             return null;
         }
     }
 
-    public void salvar(Carro pCarro) {
+    // Consultar carro por id
+    public Boolean salvar(Carro pCarro) {
         try {
             Statement statement = ConexaoBanco.getConn().createStatement();
             String insertCarro = "INSERT INTO carro (id_fabricante, id_modelo, placa," +
@@ -54,28 +56,17 @@ public class CarroRepository {
                     + pCarro.getAno() + ", "
                     + pCarro.getValorLocacao() + ")";
 
-            // StringBuilder insertCarro2 = new StringBuilder();
-            // insertCarro2.append("INSERT INTO carro (id_fabricante, id_modelo, placa,");
-            // insertCarro2.append(" cor, disponivel, ano, valorlocacao) VALUES (");
-            // insertCarro2.append(pCarro.getIdFabricante()).append(",");
-            // insertCarro2.append(pCarro.getIdModelo()).append(", ");
-            // insertCarro2.append("'").append(pCarro.getPlaca()).append("'").append(",");
-            // insertCarro2.append("'").append(pCarro.getCor()).append("'").append(",");
-            // insertCarro2.append(pCarro.getDisponivel()).append(", ");
-            // insertCarro2.append(pCarro.getAno()).append(",");
-            // insertCarro2.append(pCarro.getValorLocacao());
-            // insertCarro2.append(");");
-
             statement.execute(insertCarro);
-            // statement.execute(insertCarro2.toString());
+            return true;
 
-        } catch (Exception ex) {
-            System.out.println("Algo deu errado");
+        } catch (SQLException ex) {
+            System.out.println("Algo deu errado... " + ex.getMessage());
+            return false;
         }
     }
 
     // Atualizar carro
-    public void atualizar(Carro pCarro) {
+    public Boolean atualizar(Carro pCarro) {
         try {
             Statement statement = ConexaoBanco.getConn().createStatement();
             String updateCarro = "UPDATE carro SET id_fabricante = "
@@ -89,9 +80,26 @@ public class CarroRepository {
                     + " WHERE id = " + pCarro.getId();
 
             statement.execute(updateCarro);
+            return true;
 
-        } catch (Exception ex) {
-            System.out.println("Algo deu errado");
+        } catch (SQLException ex) {
+            System.out.println("Algo deu errado... " + ex.getMessage());
+            return false;
+        }
+    }
+
+    // Deletar um carro
+    public Boolean deletar(Long pId) {
+        try {
+            Statement statement = ConexaoBanco.getConn().createStatement();
+            String deleteCarro = "DELETE FROM carro WHERE id = " + pId;
+
+            statement.execute(deleteCarro);
+            return true;
+
+        } catch (SQLException ex) {
+            System.out.println("Algo deu errado... " + ex.getMessage());
+            return false;
         }
     }
 }

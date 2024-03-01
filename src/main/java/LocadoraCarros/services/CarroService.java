@@ -1,11 +1,11 @@
 package LocadoraCarros.services;
 
 import LocadoraCarros.model.Carro;
-import LocadoraCarros.model.Fabricante;
+// import LocadoraCarros.model.Fabricante;
 import LocadoraCarros.repositorys.CarroRepository;
-import LocadoraCarros.repositorys.FabricanteRepository;
+// import LocadoraCarros.repositorys.FabricanteRepository;
 
-import java.util.ArrayList;
+// import java.util.ArrayList;
 import java.util.List;
 
 public class CarroService {
@@ -14,22 +14,28 @@ public class CarroService {
         return new CarroRepository().consultar();
     }
 
-    public Boolean isNovoCarro(List<Carro> pCarros, String pPlaca) {
+    public Boolean existeCarro(List<Carro> pCarros, String pPlaca) {
         for (Carro carro : pCarros) {
             if (carro.getPlaca().equals(pPlaca)) {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     public void salvar(Carro pCarro) {
-        new CarroRepository().salvar(pCarro);
+        Boolean result = new CarroRepository().salvar(pCarro);
+        if (result) {
+            System.out.println("Carro salvo com sucesso!");
+        }
     }
 
     // Atualizar carro
     public void atualizar(Carro pCarro) {
-        new CarroRepository().atualizar(pCarro);
+        Boolean result = new CarroRepository().atualizar(pCarro);
+        if (result) {
+            System.out.println("Carro atualizado com sucesso!");
+        }
     }
 
     public void cadastrar() {
@@ -80,6 +86,14 @@ public class CarroService {
         new CarroRepository().salvar(carroCadastro);
 
         System.out.println("SALVO COM SUCESSO!");
+    }
+
+    // Deletar um carro
+    public void deletar(Long pId) {
+        Boolean result = new CarroRepository().deletar(pId);
+        if (result) {
+            System.out.println("Carro deletado com sucesso!");
+        }
     }
 
     public String getPlaca() {

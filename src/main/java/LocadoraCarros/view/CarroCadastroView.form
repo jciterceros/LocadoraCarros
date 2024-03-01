@@ -72,9 +72,9 @@
                   <Group type="102" attributes="0">
                       <Component id="btnNovoItem" min="-2" pref="111" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="btnCarregaLista" min="-2" pref="111" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btnEditaItem" min="-2" pref="111" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="btnDeletarItem" min="-2" pref="111" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -125,8 +125,8 @@
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnNovoItem" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
-                          <Component id="btnCarregaLista" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
                           <Component id="btnEditaItem" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
+                          <Component id="btnDeletarItem" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -292,14 +292,6 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="btnCarregaLista">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Carregar"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCarregaListaActionPerformed"/>
-      </Events>
-    </Component>
     <Component class="javax.swing.JButton" name="btnEditaItem">
       <Properties>
         <Property name="text" type="java.lang.String" value="Editar"/>
@@ -315,6 +307,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNovoItemActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnDeletarItem">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Deletar"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDeletarItemActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

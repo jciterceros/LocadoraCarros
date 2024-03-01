@@ -4,7 +4,7 @@
  */
 package LocadoraCarros.view;
 
-import LocadoraCarros.classe.ConexaoBanco;
+// import LocadoraCarros.classe.ConexaoBanco;
 import LocadoraCarros.model.Carro;
 import LocadoraCarros.model.Fabricante;
 import LocadoraCarros.model.Modelo;
@@ -14,9 +14,9 @@ import LocadoraCarros.services.ModeloService;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.ComboBoxModel;
+// import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
+// import javax.swing.JComboBox;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
@@ -30,6 +30,11 @@ public class CarroCadastroView extends javax.swing.JFrame {
     Carro carroSalvar = new Carro();
 
     public CarroCadastroView() {
+
+        // Ajustando algumas propiedades da janela
+        this.setTitle("Cadastro de Carros");
+        this.setResizable(false);
+
         initComponents();
         try {
 
@@ -62,7 +67,7 @@ public class CarroCadastroView extends javax.swing.JFrame {
         txtValorLocacao.setText("");
     }
 
-    public Boolean isOkFormulario() {
+    public Boolean validaFormulario() {
         if (cbxFabricante.getSelectedItem() == null
                 || cbxModelo.getSelectedItem() == null
                 || txtPlaca.getText().trim().length() < 7
@@ -82,19 +87,16 @@ public class CarroCadastroView extends javax.swing.JFrame {
     }
 
     public void salvar() {
-        // System.out.println("Item Selecionado: " + cbxFabricante.getSelectedItem());
-        // carroSalvar.setIdFabricante(Long.parseLong(txtFabricante.getText()));
-        // carroSalvar.setIdModelo(Long.parseLong(txtModelo.getText()));
 
         // Verificar se e carro e novo ou se e uma edicao
         List<Carro> vCarros = new CarroService().consultar();
-        if (!new CarroService().isNovoCarro(vCarros, txtPlaca.getText().trim())) {
+        if (new CarroService().existeCarro(vCarros, txtPlaca.getText().trim())) {
             System.out.println("Carro já cadastrado");
             atualizarItem();
             return;
         }
 
-        if (isOkFormulario() == false) {
+        if (!validaFormulario()) {
             System.out.println("Preencha todos os campos");
             return;
         }
@@ -113,7 +115,7 @@ public class CarroCadastroView extends javax.swing.JFrame {
         System.out.println(carroSalvar.toString());
 
         new CarroService().salvar(carroSalvar);
-        System.out.println("Carro salvo com sucesso!");
+        carregarCarros();
     }
 
     // Atualizar um item da tabela de carros
@@ -139,7 +141,7 @@ public class CarroCadastroView extends javax.swing.JFrame {
         System.out.println(carroSalvar.toString());
 
         new CarroService().atualizar(carroSalvar);
-        System.out.println("Carro atualizado com sucesso!");
+        carregarCarros();
     }
 
     private void exibirFabricantes() {
@@ -183,6 +185,20 @@ public class CarroCadastroView extends javax.swing.JFrame {
 
         // Definindo o modelo da tabela
         tblListagem.setModel(model);
+    }
+
+    // Deletar um item da tabela de carros
+    private void deletarItem() {
+        int row = tblListagem.getSelectedRow();
+        if (row == -1) {
+            System.out.println("Selecione um item para deletar");
+            return;
+        }
+
+        // Pega a primeira coluna do item selecionado
+        Long id = (Long) tblListagem.getValueAt(row, 0);
+        new CarroService().deletar(id);
+        carregarCarros();
     }
 
     // Editar um item da tabela de carros
@@ -280,6 +296,8 @@ public class CarroCadastroView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
     // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -299,9 +317,9 @@ public class CarroCadastroView extends javax.swing.JFrame {
         txtCor = new javax.swing.JFormattedTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblListagem = new javax.swing.JTable();
-        btnCarregaLista = new javax.swing.JButton();
         btnEditaItem = new javax.swing.JButton();
         btnNovoItem = new javax.swing.JButton();
+        btnDeletarItem = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -364,13 +382,6 @@ public class CarroCadastroView extends javax.swing.JFrame {
         tblListagem.setName(""); // NOI18N
         jScrollPane1.setViewportView(tblListagem);
 
-        btnCarregaLista.setText("Carregar");
-        btnCarregaLista.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCarregaListaActionPerformed(evt);
-            }
-        });
-
         btnEditaItem.setText("Editar");
         btnEditaItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -383,6 +394,13 @@ public class CarroCadastroView extends javax.swing.JFrame {
         btnNovoItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNovoItemActionPerformed(evt);
+            }
+        });
+
+        btnDeletarItem.setText("Deletar");
+        btnDeletarItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeletarItemActionPerformed(evt);
             }
         });
 
@@ -454,11 +472,11 @@ public class CarroCadastroView extends javax.swing.JFrame {
                                                 .addComponent(btnNovoItem, javax.swing.GroupLayout.PREFERRED_SIZE, 111,
                                                         javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(18, 18, 18)
-                                                .addComponent(btnCarregaLista, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                        111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(18, 18, 18)
                                                 .addComponent(btnEditaItem, javax.swing.GroupLayout.PREFERRED_SIZE, 111,
                                                         javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(btnDeletarItem, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                        111, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(0, 0, Short.MAX_VALUE)))
                                 .addContainerGap()));
         layout.setVerticalGroup(
@@ -522,16 +540,21 @@ public class CarroCadastroView extends javax.swing.JFrame {
                                                         .addComponent(btnNovoItem,
                                                                 javax.swing.GroupLayout.PREFERRED_SIZE, 48,
                                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(btnCarregaLista,
+                                                        .addComponent(btnEditaItem,
                                                                 javax.swing.GroupLayout.PREFERRED_SIZE, 48,
                                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(btnEditaItem,
+                                                        .addComponent(btnDeletarItem,
                                                                 javax.swing.GroupLayout.PREFERRED_SIZE, 48,
                                                                 javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addContainerGap()));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnDeletarItemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnDeletarItemActionPerformed
+        // TODO add your handling code here:
+        deletarItem();
+    }// GEN-LAST:event_btnDeletarItemActionPerformed
 
     private void btnNovoItemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnNovoItemActionPerformed
         // TODO add your handling code here:
@@ -560,6 +583,7 @@ public class CarroCadastroView extends javax.swing.JFrame {
         // TODO add your handling code here:
         carregarFabricantes();
         carregarModelos(1L);
+        carregarCarros();
     }// GEN-LAST:event_formWindowOpened
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnSalvarActionPerformed
@@ -616,7 +640,7 @@ public class CarroCadastroView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCarregaLista;
+    private javax.swing.JButton btnDeletarItem;
     private javax.swing.JButton btnEditaItem;
     private javax.swing.JButton btnNovoItem;
     private javax.swing.JButton btnSalvar;
