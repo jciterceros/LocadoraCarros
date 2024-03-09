@@ -43,6 +43,36 @@ public class CarroRepository {
     }
 
     // Consultar carro por id
+    public Carro consultar(Long pId) {
+        try {
+            Statement statement = ConexaoBanco.getConn().createStatement();
+
+            String sql = "SELECT * FROM carro WHERE id = " + pId;
+
+            ResultSet result = statement.executeQuery(sql);
+
+            Carro carro = new Carro();
+
+            while (result.next()) {
+                carro.setId(result.getLong("id"));
+                carro.setIdFabricante(result.getLong("id_fabricante"));
+                carro.setIdModelo(result.getLong("id_modelo"));
+                carro.setPlaca(result.getString("placa"));
+                carro.setCor(result.getString("cor"));
+                carro.setDisponivel(result.getBoolean("disponivel"));
+                carro.setAno(result.getInt("ano"));
+                carro.setValorLocacao(result.getDouble("valorlocacao"));
+            }
+
+            return carro;
+
+        } catch (SQLException ex) {
+            System.out.println("Algo deu errado... " + ex.getMessage());
+            return null;
+        }
+    }
+
+    // Salvar um carro
     public Boolean salvar(Carro pCarro) {
         try {
             Statement statement = ConexaoBanco.getConn().createStatement();

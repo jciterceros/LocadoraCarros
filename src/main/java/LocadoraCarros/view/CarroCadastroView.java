@@ -23,7 +23,7 @@ import javax.swing.text.MaskFormatter;
 
 /**
  *
- * @author lucas.vigano
+ * @author Fernando.Terceros
  */
 public class CarroCadastroView extends javax.swing.JFrame {
 

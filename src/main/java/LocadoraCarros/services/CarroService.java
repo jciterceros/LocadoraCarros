@@ -10,10 +10,12 @@ import java.util.List;
 
 public class CarroService {
 
+    // Consultar carros
     public List<Carro> consultar() {
         return new CarroRepository().consultar();
     }
 
+    // Verifica se Existe carro
     public Boolean existeCarro(List<Carro> pCarros, String pPlaca) {
         for (Carro carro : pCarros) {
             if (carro.getPlaca().equals(pPlaca)) {
@@ -23,6 +25,7 @@ public class CarroService {
         return false;
     }
 
+    // Salvar carro
     public void salvar(Carro pCarro) {
         Boolean result = new CarroRepository().salvar(pCarro);
         if (result) {
@@ -38,6 +41,15 @@ public class CarroService {
         }
     }
 
+    // Deletar um carro
+    public void deletar(Long pId) {
+        Boolean result = new CarroRepository().deletar(pId);
+        if (result) {
+            System.out.println("Carro deletado com sucesso!");
+        }
+    }
+
+    // TODO: Verificar se é necessário
     public void cadastrar() {
         Carro carroCadastro = new Carro();
 
@@ -88,14 +100,7 @@ public class CarroService {
         System.out.println("SALVO COM SUCESSO!");
     }
 
-    // Deletar um carro
-    public void deletar(Long pId) {
-        Boolean result = new CarroRepository().deletar(pId);
-        if (result) {
-            System.out.println("Carro deletado com sucesso!");
-        }
-    }
-
+    // TODO: Verificar se é necessário
     public String getPlaca() {
         System.out.println("Informe a placa:");
         String placa = new LeituraService().ler();
@@ -103,6 +108,7 @@ public class CarroService {
         return placa;
     }
 
+    // TODO: Verificar se é necessário
     public String getCor() {
         System.out.println("Informe a cor:");
         String cor = new LeituraService().ler();
@@ -110,6 +116,7 @@ public class CarroService {
         return cor;
     }
 
+    // TODO: Verificar se é necessário
     public Boolean getDisponivel() {
         System.out.println("O veiculo está disponivel? (s/n)?");
 
@@ -130,6 +137,7 @@ public class CarroService {
         return disponivel;
     }
 
+    // TODO: Verificar se é necessário
     public Integer getAno() {
         System.out.println("Informe o Ano:");
         String ano = new LeituraService().ler();
@@ -147,6 +155,7 @@ public class CarroService {
         return anoCarro;
     }
 
+    // TODO: Verificar se é necessário
     public Double getValorLocacao() {
         System.out.println("Informe o valor da locacao:");
         String valor = new LeituraService().ler();
