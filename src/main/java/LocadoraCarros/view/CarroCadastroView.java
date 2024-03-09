@@ -277,6 +277,7 @@ public class CarroCadastroView extends javax.swing.JFrame {
 
         for (Modelo modelo : vModelos) {
             vLista.add(modelo.toString());
+            //System.out.println(modelo.getNome().toString());
         }
 
         cbxModelo.setModel(new DefaultComboBoxModel(vLista.toArray()));

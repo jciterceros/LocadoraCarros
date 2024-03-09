@@ -37,5 +37,4 @@ public class Fabricante {
     public String toString() {
         return id + " - " + nome;
     }
-
 }
